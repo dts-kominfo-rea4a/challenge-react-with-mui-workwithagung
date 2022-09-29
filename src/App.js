@@ -1,19 +1,49 @@
-import './App.css';
-
 // Uncomment untuk memuat daftar kontak
-// import contactsJSON from './data/contacts.json';
+import contactsJSON from './data/contacts.json';
+import {Card, CardContent, Container, Grid, List} from "@mui/material";
+import Header from "./components/Header";
+import ContactForm from "./components/ContactForm";
+import Contact from "./components/Contact";
+import {useState} from "react";
+
 const App = () => {
-  // Masukkan Header dan lakukan map untuk Contact ke dalam div App
-  // untuk membuat daftar kontak bisa menggunakan MUI list
-  // https://mui.com/material-ui/react-list/#folder-list
+    // Masukkan Header dan lakukan map untuk Contact ke dalam div App
+    // untuk membuat daftar kontak bisa menggunakan MUI list
+    // https://mui.com/material-ui/react-list/#folder-list
 
-  // Masukkan contacts yang sudah didapat dalam JSON sebagai initial state
-  // Buatlah handler untuk menambahkan kontak baru yang akan dikirim ke ContactForm
+    // Masukkan contacts yang sudah didapat dalam JSON sebagai initial state
+    // Buatlah handler untuk menambahkan kontak baru yang akan dikirim ke ContactForm
+    const [contacts, setContacts] = useState(contactsJSON)
 
-  return (
-    <div className="App">
-    </div>
-  );
+    const addNewContact = (newData) => {
+        setContacts([...contacts, newData])
+    }
+
+    return (
+        <div className="App">
+            <Header></Header>
+            <Container>
+                <Grid container spacing={2}>
+                    <Grid item xs={6}>
+                        <ContactForm addNewContact={addNewContact}></ContactForm>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <Card>
+                            <CardContent>
+                                <List>
+                                    {
+                                        contacts.map((item, index) => {
+                                            return <Contact key={index} data={item}></Contact>
+                                        })
+                                    }
+                                </List>
+                            </CardContent>
+                        </Card>
+                    </Grid>
+                </Grid>
+            </Container>
+        </div>
+    );
 };
 
 export default App;
